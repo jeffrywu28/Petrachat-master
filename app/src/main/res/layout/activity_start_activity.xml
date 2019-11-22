@@ -25,6 +25,19 @@
         android:layout_marginLeft="96dp" />
 
     <Button
+        android:id="@+id/start_login_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="159dp"
+        android:layout_marginRight="159dp"
+        android:layout_marginBottom="151dp"
+        android:text="@string/login" />
+
+    <Button
         android:id="@+id/start_reg_btn"
         android:layout_width="213dp"
         android:layout_height="53dp"
@@ -37,16 +50,17 @@
         android:layout_marginBottom="80dp"
         android:text="@string/dont_have_an_account" />
 
-    <Button
-        android:id="@+id/start_login_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="159dp"
-        android:layout_marginRight="159dp"
-        android:layout_marginBottom="151dp"
-        android:text="@string/login" />
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/textView"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_marginEnd="-88dp"
+        android:layout_marginRight="-88dp"
+        android:layout_marginBottom="-366dp"
+        app:srcCompat="@drawable/petra" />
+
 </RelativeLayout>
