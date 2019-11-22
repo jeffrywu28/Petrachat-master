@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_insetEdge="none"
     tools:context=".Start_activity">
 
     <TextView
@@ -11,18 +12,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
         android:layout_marginTop="365dp"
         android:layout_marginEnd="88dp"
         android:layout_marginRight="88dp"
         android:text="@string/selamat_datang_di_petrachat"
-        android:textSize="18sp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="96dp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/start_login_btn"
@@ -55,12 +56,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/textView"
+        android:layout_alignTop="@+id/textView"
         android:layout_alignEnd="@+id/textView"
         android:layout_alignRight="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_marginEnd="-88dp"
-        android:layout_marginRight="-88dp"
-        android:layout_marginBottom="-366dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-251dp"
+        android:layout_marginEnd="-94dp"
+        android:layout_marginRight="-94dp"
+        android:layout_marginBottom="510dp"
         app:srcCompat="@drawable/petra" />
 
 </RelativeLayout>
