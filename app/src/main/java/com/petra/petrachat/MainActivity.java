@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-//test
+
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
