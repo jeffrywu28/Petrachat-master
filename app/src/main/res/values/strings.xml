@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Petrachat</string>
+    <string name="register">Register</string>
+    <string name="masukkan_nama_anda">masukkan nama anda</string>
+    <string name="masukkan_password">Masukkan password</string>
+    <string name="enter_email">enter email</string>
+    <string name="petrachat">Petrachat</string>
+    <string name="daftar">Daftar</string>
+    <string name="log_out">Log Out</string>
+    <string name="this_is_main_page">This is Main Page</string>
+    <string name="all_users">All Users</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="selamat_datang_di_petrachat">Selamat datang di PetraChat</string>
+    <string name="dont_have_an_account">Dont have an account?</string>
+    <string name="login">Login</string>
+    <string name="login_petrachat">Login petrachat</string>
+    <string name="gambar_petra">gambar petra</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
