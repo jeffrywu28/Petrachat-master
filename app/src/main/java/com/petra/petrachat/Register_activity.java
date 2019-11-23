@@ -1,6 +1,8 @@
 package com.petra.petrachat;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +16,8 @@ import com.google.android.material.textfield.TextInputLayout;
 //firebase
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 public class Register_activity extends AppCompatActivity {
 
@@ -51,13 +55,29 @@ public class Register_activity extends AppCompatActivity {
                 String email = mEmail.getEditText().getText().toString();
                 String password = mPassword.getEditText().getText().toString();
 
-                    //loading dialog
-                    mRegProgress.setTitle("Registering user");
-                    mRegProgress.setMessage("Mohon ditunggu Petra People");
-                    mRegProgress.setCanceledOnTouchOutside(false);
-                    mRegProgress.show();
+                   if(displayName.isEmpty()&& email.isEmpty() && password.isEmpty())
+                   {
+                       AlertDialog alertDialog = new AlertDialog.Builder(Register_activity.this).create();
+                       alertDialog.setTitle("Alert");
+                       alertDialog.setMessage("Harap cek inputan anda Petra People");
+                       alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                               new DialogInterface.OnClickListener() {
+                                   public void onClick(DialogInterface dialog, int which) {
+                                       dialog.dismiss();
+                                   }
+                               });
+                       alertDialog.show();
+                   }
+                   else
+                   {
+                       //loading dialog
+                       mRegProgress.setTitle("Registering user");
+                       mRegProgress.setMessage("Mohon ditunggu Petra People");
+                       mRegProgress.setCanceledOnTouchOutside(false);
+                       mRegProgress.show();
 
-                    register_user(displayName,email,password);
+                       register_user(displayName,email,password);
+                   }
 
             }
         });

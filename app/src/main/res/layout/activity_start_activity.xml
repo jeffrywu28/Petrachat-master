@@ -59,11 +59,15 @@
         android:layout_alignTop="@+id/textView"
         android:layout_alignEnd="@+id/textView"
         android:layout_alignRight="@+id/textView"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentRight="false"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="-251dp"
-        android:layout_marginEnd="-94dp"
-        android:layout_marginRight="-94dp"
-        android:layout_marginBottom="510dp"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginTop="-300dp"
+        android:layout_marginEnd="-106dp"
+        android:layout_marginRight="-20dp"
+        android:layout_marginBottom="507dp"
         app:srcCompat="@drawable/petra" />
 
 </RelativeLayout>
