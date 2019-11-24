@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendToStart() {
-        Intent startIntent = new Intent (MainActivity.this,Start_activity.class);
+        Intent startIntent = new Intent (MainActivity.this,SplashScreen.class);
         startActivity(startIntent);
         finish();
     }

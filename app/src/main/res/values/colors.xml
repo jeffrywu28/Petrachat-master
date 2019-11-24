@@ -3,4 +3,10 @@
     <color name="colorPrimary">#008aff</color>
     <color name="colorPrimaryDark">#02559b</color>
     <color name="colorAccent">#0060ff</color>
+
+
+    <color name="white">#FFFFFF</color>
+    <color name="transparant">#00000000</color>
+    <color name="gridStart">#19AA8B</color>
+    <color name="gridStop">#23A7D8</color>
 </resources>
