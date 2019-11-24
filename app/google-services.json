@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "38298179195-kg4u3l71dfh7qjgjl510cb2d2iq69d1g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.petra.petrachat",
+            "certificate_hash": "55353304a210c1374f205a3519a94daba6e49699"
+          }
+        },
+        {
           "client_id": "38298179195-kdtecqpsb3n4vrt1bo87a9hlukhbrjbd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

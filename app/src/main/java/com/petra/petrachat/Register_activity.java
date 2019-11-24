@@ -16,6 +16,11 @@ import com.google.android.material.textfield.TextInputLayout;
 //firebase
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
@@ -28,7 +33,7 @@ public class Register_activity extends AppCompatActivity {
     private Button mCreateBtn;
     //firebase auth
     private FirebaseAuth mAuth;
-
+    private DatabaseReference mDatabase;
     private TextInputLayout edtPassword;
 
     @Override
@@ -55,6 +60,7 @@ public class Register_activity extends AppCompatActivity {
                 String email = mEmail.getEditText().getText().toString();
                 String password = mPassword.getEditText().getText().toString();
 
+                    //cek inputan kosong
                    if(displayName.isEmpty()&& email.isEmpty() && password.isEmpty())
                    {
                        AlertDialog alertDialog = new AlertDialog.Builder(Register_activity.this).create();
@@ -82,15 +88,40 @@ public class Register_activity extends AppCompatActivity {
             }
         });
     }
-    private void register_user(String _display_name,String _email,String _password) {
+
+
+
+    private void register_user(final String _display_name, String _email, String _password) {
         mAuth.createUserWithEmailAndPassword(_email,_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
              if(task.isSuccessful()){
-                 mRegProgress.dismiss();
-                 Intent mainIntent= new Intent(Register_activity.this,MainActivity.class);
-                 startActivity(mainIntent);
-                 finish();
+                 FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
+                 String uid = current_user.getUid();
+
+                 mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+
+                 HashMap<String, String> userMap = new HashMap<>();
+                 userMap.put("name",_display_name);
+                 userMap.put("status", "Hi there I'm using Petra chat");
+                 userMap.put("image", "default");
+                 userMap.put("thumb_image","default");
+
+                 mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                     @Override
+                     public void onComplete(@NonNull Task<Void> task) {
+                         if(task.isSuccessful()){
+                             mRegProgress.dismiss();
+
+                             Intent mainIntent= new Intent(Register_activity.this,MainActivity.class);
+                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                             startActivity(mainIntent);
+                             finish();
+                         }
+                     }
+                 });
+
              }else {
                  mRegProgress.hide();
                  Toast.makeText(Register_activity.this,"Tidak bisa sign in, tolong cek kembali inputan anda!",Toast.LENGTH_LONG).show();
