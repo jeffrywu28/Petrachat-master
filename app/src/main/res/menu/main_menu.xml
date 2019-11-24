@@ -2,7 +2,9 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/account_settings" />
+    <item
+        android:id="@+id/main_acc_setting"
+        android:title="@string/account_settings" />
     <item
         android:id="@+id/main_all_usr"
         android:title="@string/all_users" />

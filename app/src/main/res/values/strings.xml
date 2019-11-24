@@ -19,4 +19,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="main_account_settings">main_account_settings</string>
+    <string name="default_status">Hello petra people, i\'m using Petrachat</string>
 </resources>
