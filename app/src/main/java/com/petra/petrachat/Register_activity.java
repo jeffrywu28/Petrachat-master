@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 
@@ -91,37 +92,43 @@ public class Register_activity extends AppCompatActivity {
 
 
 
-    private void register_user(final String _display_name, String _email, String _password) {
-        mAuth.createUserWithEmailAndPassword(_email,_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void register_user(final String display_name, String email, String password) {
+
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
-             if(task.isSuccessful()){
-                 FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
-                 String uid = current_user.getUid();
+                if(task.isSuccessful()){
 
-                 mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
 
-                 HashMap<String, String> userMap = new HashMap<>();
-                 userMap.put("name",_display_name);
-                 userMap.put("status", "Hi there I'm using Petra chat");
-                 userMap.put("image", "default");
-                 userMap.put("thumb_image","default");
+                    FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
+                    String uid = current_user.getUid();
+    
+                    mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
 
-                 mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                     @Override
-                     public void onComplete(@NonNull Task<Void> task) {
-                         if(task.isSuccessful()){
-                             mRegProgress.dismiss();
+                    HashMap<String, String> userMap = new HashMap<>();
+                    userMap.put("name", display_name);
+                    userMap.put("status", "Hi there I'm using Petrachat.");
+                    userMap.put("image", "default");
+                    userMap.put("thumb_image", "default");
 
-                             Intent mainIntent= new Intent(Register_activity.this,MainActivity.class);
-                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                             startActivity(mainIntent);
-                             finish();
-                         }
-                     }
-                 });
+                    mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
+                            if(task.isSuccessful()){
+
+                                mRegProgress.dismiss();
+
+                                Intent mainIntent = new Intent(Register_activity.this, MainActivity.class);
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(mainIntent);
+                                finish();
+
+                            }
+
+                        }
+                    });
              }else {
                  mRegProgress.hide();
                  Toast.makeText(Register_activity.this,"Tidak bisa sign in, tolong cek kembali inputan anda!",Toast.LENGTH_LONG).show();
