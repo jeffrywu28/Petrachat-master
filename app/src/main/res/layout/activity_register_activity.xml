@@ -104,4 +104,4 @@
         app:srcCompat="@drawable/petra"
         tools:layout_editor_absoluteX="1dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
