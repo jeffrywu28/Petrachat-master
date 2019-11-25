@@ -13,19 +13,21 @@
         android:layout_height="wrap_content" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/status_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="94dp">
+        android:layout_marginTop="94dp"
+        android:layout_alignParentLeft="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/status_input"
+            android:id="@+id/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:hint="Your Status" />
+            android:hint="@string/your_status" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -38,6 +40,6 @@
         android:layout_marginTop="178dp"
         android:layout_marginEnd="22dp"
         android:layout_marginRight="22dp"
-        android:text="SAVE CHANGES" />
+        android:text="@string/save_changes" />
 
 </RelativeLayout>

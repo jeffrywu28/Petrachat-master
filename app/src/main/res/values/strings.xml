@@ -21,4 +21,6 @@
     <string name="title_activity_setting">SettingActivity</string>
     <string name="main_account_settings">main_account_settings</string>
     <string name="default_status">Hello petra people, i\'m using Petrachat</string>
+    <string name="your_status">Your Status</string>
+    <string name="save_changes">SAVE CHANGES</string>
 </resources>

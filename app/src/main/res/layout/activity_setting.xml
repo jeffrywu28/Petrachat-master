@@ -40,7 +40,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/Setting_image_btn"
+        android:id="@+id/setting_image_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -50,7 +50,7 @@
         android:text="Change Image" />
 
     <Button
-        android:id="@+id/Setting_status_btn"
+        android:id="@+id/setting_status_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignWithParentIfMissing="false"
