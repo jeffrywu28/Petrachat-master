@@ -1,15 +1,20 @@
 package com.petra.petrachat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +22,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -30,7 +40,12 @@ public class SettingActivity extends AppCompatActivity {
     private TextView mName;
     private TextView mStatus;
     private Button mStatusBtn;
-    private Button mImageBtn;
+    private Button mimageBtn;
+    private static final int GALLERY_PICK = 1;
+
+    //Storage
+    private StorageReference mStorageRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +56,13 @@ public class SettingActivity extends AppCompatActivity {
         mStatus = (TextView) findViewById(R.id.setting_status);
 
         mStatusBtn = (Button)findViewById(R.id.setting_status_btn);
+        mimageBtn= (Button)findViewById(R.id.setting_image_btn);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        String current_uid=mCurrentUser.getUid();
+        String current_uid = mCurrentUser.getUid();
         mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child(current_uid);
 
         mUserDatabase.addValueEventListener(new ValueEventListener() {
@@ -75,5 +94,58 @@ public class SettingActivity extends AppCompatActivity {
                 startActivity(status_intent);
             }
         });
+
+        mimageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setType("image/*");
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(galleryIntent,"Select Image"), GALLERY_PICK);
+                /*CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .start(SettingActivity.this);*/
+            }
+        });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==GALLERY_PICK && resultCode == RESULT_OK ){
+
+            Uri imageUrl = data.getData();
+            CropImage.activity(imageUrl)
+                    .setAspectRatio(1,1)
+                    .start(this);
+
+            //Toast.makeText(SettingActivity.this,imageUrl, Toast.LENGTH_LONG).show();
+
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+
+                StorageReference filepath = mStorageRef.child("profile_images").child("profile_image.jpg");
+                filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                        if(task.isSuccessful()){
+                            Toast.makeText(SettingActivity.this,"Working", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(SettingActivity.this,"Upload error", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
+
+            }else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
     }
 }
