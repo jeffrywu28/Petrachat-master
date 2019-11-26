@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -51,12 +52,12 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        mDisplayImage = (CircleImageView) findViewById(R.id.setting_image);
-        mName = (TextView) findViewById(R.id.setting_display_name);
-        mStatus = (TextView) findViewById(R.id.setting_status);
+        mDisplayImage = findViewById(R.id.setting_image);
+        mName = findViewById(R.id.setting_display_name);
+        mStatus = findViewById(R.id.setting_status);
 
-        mStatusBtn = (Button)findViewById(R.id.setting_status_btn);
-        mimageBtn= (Button)findViewById(R.id.setting_image_btn);
+        mStatusBtn = findViewById(R.id.setting_status_btn);
+        mimageBtn= findViewById(R.id.setting_image_btn);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
@@ -131,13 +132,23 @@ public class SettingActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
 
-                StorageReference filepath = mStorageRef.child("profile_images").child(random() + ".jpg");
+                String current_user_id = mCurrentUser.getUid();
+
+                StorageReference filepath = mStorageRef.child("profile_images").child(current_user_id + ".jpg");
                 filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
                         if(task.isSuccessful()){
-                            Toast.makeText(SettingActivity.this, "Success Uploading.", Toast.LENGTH_LONG).show();
+                            String download_url = task.getResult().getStorage().getDownloadUrl().toString();
+
+                            mUserDatabase.child("image").setValue(download_url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(SettingActivity.this,"Upload berhasil", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
                         }else{
                             Toast.makeText(SettingActivity.this,"Upload error", Toast.LENGTH_LONG).show();
 
