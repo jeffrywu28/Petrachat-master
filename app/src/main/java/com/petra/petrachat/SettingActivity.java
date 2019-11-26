@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,7 +25,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -86,7 +84,7 @@ public class SettingActivity extends AppCompatActivity {
 
         mStatusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 String status_value = mStatus.getText().toString();
 
                 Intent status_intent = new Intent(SettingActivity.this,StatusActivity.class);
@@ -97,7 +95,7 @@ public class SettingActivity extends AppCompatActivity {
 
         mimageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent galleryIntent = new Intent();
                 galleryIntent.setType("image/*");
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -115,8 +113,9 @@ public class SettingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==GALLERY_PICK && resultCode == RESULT_OK ){
 
-            Uri imageUrl = data.getData();
-            CropImage.activity(imageUrl)
+            Uri imageUri = data.getData();
+
+            CropImage.activity(imageUri)
                     .setAspectRatio(1,1)
                     .start(this);
 
@@ -124,6 +123,7 @@ public class SettingActivity extends AppCompatActivity {
 
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
             if (resultCode == RESULT_OK) {
@@ -135,7 +135,7 @@ public class SettingActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
                         if(task.isSuccessful()){
-                            Toast.makeText(SettingActivity.this,"Working", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SettingActivity.this, "Success Uploading.", Toast.LENGTH_LONG).show();
                         }else{
                             Toast.makeText(SettingActivity.this,"Upload error", Toast.LENGTH_LONG).show();
 
