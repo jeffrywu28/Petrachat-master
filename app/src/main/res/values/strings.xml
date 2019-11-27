@@ -23,4 +23,6 @@
     <string name="default_status">Hello petra people, i\'m using Petrachat</string>
     <string name="your_status">Your Status</string>
     <string name="save_changes">SAVE CHANGES</string>
+    <string name="display_name">Display Name</string>
+    <string name="user_default_status">User Default Status</string>
 </resources>

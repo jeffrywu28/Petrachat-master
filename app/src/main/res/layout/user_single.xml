@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/user_single_status"
@@ -12,7 +13,7 @@
         android:layout_alignParentBottom="false"
         android:layout_marginLeft="93dp"
         android:layout_marginTop="57dp"
-        android:text="User Default Status" />
+        android:text="@string/user_default_status" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_single"
@@ -32,7 +33,7 @@
         android:layout_alignParentBottom="false"
         android:layout_marginLeft="93dp"
         android:layout_marginTop="25dp"
-        android:text="Display Name"
+        android:text="@string/display_name"
         android:textColor="#090303"
         android:textSize="18sp"
         android:textStyle="normal" />
