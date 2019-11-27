@@ -12,7 +12,7 @@
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:clickable="false"
         android:src="@drawable/defaultprofile" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="280dp"
         android:gravity="center"
         android:text="Display Name"
         android:textSize="24sp" />
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="360dp"
         android:gravity="center"
         android:text="@string/default_status"
         android:textAllCaps="false"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="490dp"
+        android:layout_marginTop="500dp"
         android:gravity="center"
         android:text="Change Image" />
 
@@ -60,7 +60,7 @@
         android:layout_alignParentBottom="false"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="135dp"
-        android:layout_marginTop="550dp"
+        android:layout_marginTop="582dp"
         android:paddingLeft="20dp"
         android:text="Change Status" />
 

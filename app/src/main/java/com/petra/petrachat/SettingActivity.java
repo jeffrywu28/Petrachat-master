@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.Random;
@@ -78,6 +79,8 @@ public class SettingActivity extends AppCompatActivity {
 
                 mName.setText(name);
                 mStatus.setText(status);
+
+                Picasso.with(SettingActivity.this).load(image).into(mDisplayImage);
             }
 
             @Override
@@ -156,7 +159,7 @@ public class SettingActivity extends AppCompatActivity {
                                                 Toast.makeText(SettingActivity.this, "Successfully uploaded", Toast.LENGTH_LONG).show();
 
                                             }else {
-                                                Toast.makeText(SettingActivity.this, "Error happened during the upload process", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(SettingActivity.this, "Upload error", Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     });
@@ -165,7 +168,7 @@ public class SettingActivity extends AppCompatActivity {
 
 
                         }else{
-                            Toast.makeText(SettingActivity.this, "Error happened during the upload process", Toast.LENGTH_LONG ).show();
+                            Toast.makeText(SettingActivity.this, "Upload error", Toast.LENGTH_LONG ).show();
                         }
                     }
                 });
