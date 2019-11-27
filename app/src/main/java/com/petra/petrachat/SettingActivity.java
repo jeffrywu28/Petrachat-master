@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,9 +30,13 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -80,7 +85,10 @@ public class SettingActivity extends AppCompatActivity {
                 mName.setText(name);
                 mStatus.setText(status);
 
-                Picasso.with(SettingActivity.this).load(image).into(mDisplayImage);
+
+                if(!image.equals("default")) {
+                    Picasso.with(SettingActivity.this).load(image).placeholder(R.drawable.defaultprofile).into(mDisplayImage);
+                }
             }
 
             @Override
@@ -122,11 +130,11 @@ public class SettingActivity extends AppCompatActivity {
 
             Uri imageUri = data.getData();
 
+            //cropping gambar
             CropImage.activity(imageUri)
                     .setAspectRatio(1,1)
                     .start(this);
 
-            //Toast.makeText(SettingActivity.this,imageUrl, Toast.LENGTH_LONG).show();
 
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -134,11 +142,36 @@ public class SettingActivity extends AppCompatActivity {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
             if (resultCode == RESULT_OK) {
+
                 Uri resultUri = result.getUri();
+
+                File thumb_filePath = new File(resultUri.getPath());
 
                 String current_user_id = mCurrentUser.getUid();
 
+                //compressing image
+                //---------------------------------------------------------------------
+                Bitmap thumb_bitmap= null;
+                try {
+                    new Compressor(this)
+                            .setMaxWidth(250)
+                            .setMaxHeight(250)
+                            .setQuality(50)
+                            .compressToBitmap(thumb_filePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                assert thumb_bitmap != null;
+                thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                final byte[] thumb_byte = baos.toByteArray();
+
+                //----------------------------------------------------------------------------
+
                 final StorageReference filepath = mStorageRef.child("profile_images").child(current_user_id + ".jpg");
+                final StorageReference thumb_filepath = mStorageRef.child("profile_images").child("thumbs").child(current_user_id + ".jpg");
+
+
                 filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -147,8 +180,17 @@ public class SettingActivity extends AppCompatActivity {
                             filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
+
                                     Uri downloadUri = uri;
                                     String download_url = uri.toString();
+                                    UploadTask uploadTask = thumb_filepath.putBytes(thumb_byte);
+                                    uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                            
+                                        }
+                                    });
+
                                     mUserDatabase.child("image").setValue(download_url).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
 

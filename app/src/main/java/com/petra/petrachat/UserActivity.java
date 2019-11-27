@@ -66,6 +66,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull Users model) {
                 holder.setName(model.getName());
+                holder.setStatus(model.getStatus());
             }
 
         };
@@ -84,6 +85,9 @@ public class UserActivity extends AppCompatActivity {
             TextView userNameView = mView.findViewById(R.id.user_single_name);
             userNameView.setText(name);
         }
-        public void 
+        public void setStatus(String status) {
+            TextView userStatusView = mView.findViewById(R.id.user_single_status);
+            userStatusView.setText(status);
+        }
     }
 }
