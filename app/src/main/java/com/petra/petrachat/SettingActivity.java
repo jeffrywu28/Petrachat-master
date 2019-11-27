@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -134,24 +135,37 @@ public class SettingActivity extends AppCompatActivity {
 
                 String current_user_id = mCurrentUser.getUid();
 
-                StorageReference filepath = mStorageRef.child("profile_images").child(current_user_id + ".jpg");
+                final StorageReference filepath = mStorageRef.child("profile_images").child(current_user_id + ".jpg");
                 filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
                         if(task.isSuccessful()){
-                            String download_url = task.getResult().getStorage().getDownloadUrl().toString();
 
-                            mUserDatabase.child("image").setValue(download_url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(SettingActivity.this,"Upload berhasil", Toast.LENGTH_LONG).show();
+                                public void onSuccess(Uri uri) {
+                                    Uri downloadUri = uri;
+                                    String download_url = uri.toString();
+                                    mUserDatabase.child("image").setValue(download_url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                            if(task.isSuccessful()) {
+
+                                                Toast.makeText(SettingActivity.this, "Successfully uploaded", Toast.LENGTH_LONG).show();
+
+                                            }else {
+                                                Toast.makeText(SettingActivity.this, "Error happened during the upload process", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
                                 }
                             });
 
-                        }else{
-                            Toast.makeText(SettingActivity.this,"Upload error", Toast.LENGTH_LONG).show();
 
+                        }else{
+                            Toast.makeText(SettingActivity.this, "Error happened during the upload process", Toast.LENGTH_LONG ).show();
                         }
                     }
                 });
