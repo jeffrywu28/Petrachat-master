@@ -1,24 +1,22 @@
 package com.petra.petrachat;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -73,7 +71,6 @@ public class SettingActivity extends AppCompatActivity {
         mimageBtn= findViewById(R.id.setting_image_btn);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
-
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         String current_uid = mCurrentUser.getUid();
@@ -91,7 +88,6 @@ public class SettingActivity extends AppCompatActivity {
                 mName.setText(name);
                 mStatus.setText(status);
 
-
                 if(!image.equals("default")) {
                     Picasso.with(SettingActivity.this).load(image).placeholder(R.drawable.defaultprofile).into(mDisplayImage);
                 }
@@ -107,7 +103,6 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String status_value = mStatus.getText().toString();
-
                 Intent status_intent = new Intent(SettingActivity.this,StatusActivity.class);
                 status_intent.putExtra("status_value",status_value);
                 startActivity(status_intent);
@@ -120,15 +115,12 @@ public class SettingActivity extends AppCompatActivity {
                 Intent galleryIntent = new Intent();
                 galleryIntent.setType("image/*");
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-
                 startActivityForResult(Intent.createChooser(galleryIntent,"Select Image"), GALLERY_PICK);
-                /*CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(SettingActivity.this);*/
             }
         });
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -142,7 +134,6 @@ public class SettingActivity extends AppCompatActivity {
                     .setAspectRatio(1,1)
                     .start(this);
 
-
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
 
@@ -151,34 +142,31 @@ public class SettingActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 Uri resultUri = result.getUri();
-
-                File thumb_filePath = new File(Objects.requireNonNull(resultUri.getPath()));
-
+                File thumb_filepath=new File(Objects.requireNonNull(resultUri.getPath()));
                 String current_user_id = mCurrentUser.getUid();
 
-                //compressing image
-                //---------------------------------------------------------------------
+                //Bitmap
                 Bitmap thumb_bitmap= null;
                 try {
-                    new Compressor(this)
+                    thumb_bitmap = new Compressor(this)
                             .setMaxWidth(250)
                             .setMaxHeight(250)
                             .setQuality(50)
-                            .compressToBitmap(thumb_filePath);
+                            .compressToBitmap(thumb_filepath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 assert thumb_bitmap != null;
                 thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                final byte[] thumb_byte = baos.toByteArray();
+                byte[] thumb_byte = baos.toByteArray();
 
-                //----------------------------------------------------------------------------
-
+                //--------------------------------------------
                 final StorageReference filepath = mStorageRef.child("profile_images").child(current_user_id + ".jpg");
-                final StorageReference thumb_filepath = mStorageRef.child("profile_images").child("thumb_image").child(current_user_id + ".jpg");
+                final StorageReference thumbPath = mStorageRef.child("profile_images").child("thumb_image").child(current_user_id + ".jpg");
 
-
+                //----------File-------
                 filepath.putFile(resultUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -212,13 +200,14 @@ public class SettingActivity extends AppCompatActivity {
                     }
                 });
 
-                thumb_filepath.putBytes(thumb_byte).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                //----------thumbnail-------
+                thumbPath.putBytes(thumb_byte).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if(task.isSuccessful()){
+                        if(!task.isSuccessful()){
                             throw Objects.requireNonNull(task.getException());
                         }
-                        return thumb_filepath.getDownloadUrl();
+                        return thumbPath.getDownloadUrl();
                     }
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
@@ -248,6 +237,7 @@ public class SettingActivity extends AppCompatActivity {
         }
     }
 
+    //fungsi merandom gambar
     public static String random(){
         Random generator = new Random();
         StringBuilder randomStringBuilder = new StringBuilder();
