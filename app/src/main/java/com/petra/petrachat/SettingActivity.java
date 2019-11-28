@@ -2,11 +2,13 @@ package com.petra.petrachat;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +36,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -123,6 +129,7 @@ public class SettingActivity extends AppCompatActivity {
         });
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -145,7 +152,7 @@ public class SettingActivity extends AppCompatActivity {
 
                 Uri resultUri = result.getUri();
 
-                File thumb_filePath = new File(resultUri.getPath());
+                File thumb_filePath = new File(Objects.requireNonNull(resultUri.getPath()));
 
                 String current_user_id = mCurrentUser.getUid();
 
@@ -169,52 +176,72 @@ public class SettingActivity extends AppCompatActivity {
                 //----------------------------------------------------------------------------
 
                 final StorageReference filepath = mStorageRef.child("profile_images").child(current_user_id + ".jpg");
-                final StorageReference thumb_filepath = mStorageRef.child("profile_images").child("thumbs").child(current_user_id + ".jpg");
+                final StorageReference thumb_filepath = mStorageRef.child("profile_images").child("thumb_image").child(current_user_id + ".jpg");
 
 
-                filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                filepath.putFile(resultUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(task.isSuccessful()){
-
-                            filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if(!task.isSuccessful()){
+                            throw Objects.requireNonNull(task.getException());
+                        }
+                        return filepath.getDownloadUrl();
+                    }
+                }) .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()){
+                            Uri downloadUri = task.getResult();
+                            Map<String, Object> map = new HashMap<String, Object>();
+                            assert downloadUri != null;
+                            map.put("image",downloadUri.toString());
+                            mUserDatabase.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
-                                public void onSuccess(Uri uri) {
-
-                                    Uri downloadUri = uri;
-                                    String download_url = uri.toString();
-                                    UploadTask uploadTask = thumb_filepath.putBytes(thumb_byte);
-                                    uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                            
-                                        }
-                                    });
-
-                                    mUserDatabase.child("image").setValue(download_url).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-
-                                        public void onComplete(@NonNull Task<Void> task) {
-
-                                            if(task.isSuccessful()) {
-
-                                                Toast.makeText(SettingActivity.this, "Successfully uploaded", Toast.LENGTH_LONG).show();
-
-                                            }else {
-                                                Toast.makeText(SettingActivity.this, "Upload error", Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    });
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(SettingActivity.this,"Upload berhasil",Toast.LENGTH_LONG).show();
                                 }
-                            });
-
-
+                                    else {
+                                        Toast.makeText(SettingActivity.this,"Upload Error",Toast.LENGTH_LONG).show();
+                            }
+                    }
+                });
                         }else{
                             Toast.makeText(SettingActivity.this, "Upload error", Toast.LENGTH_LONG ).show();
                         }
                     }
                 });
 
+                thumb_filepath.putBytes(thumb_byte).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if(task.isSuccessful()){
+                            throw Objects.requireNonNull(task.getException());
+                        }
+                        return thumb_filepath.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUri = task.getResult();
+                            Map<String, Object> map = new HashMap<String, Object>();
+                            map.put("thumb_image", downloadUri.toString());
+                            mUserDatabase.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(SettingActivity.this, "Upload berhasil", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(SettingActivity.this, "Upload Error", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        } else {
+                            Toast.makeText(SettingActivity.this, "Upload Error", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
             }else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
