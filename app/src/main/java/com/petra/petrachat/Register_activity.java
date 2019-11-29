@@ -106,11 +106,14 @@ public class Register_activity extends AppCompatActivity {
 
                     mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
 
+                    String devicetoken=FirebaseInstanceId.getInstance().getToken();
+
                     HashMap<String, String> userMap = new HashMap<>();
                     userMap.put("name", display_name);
                     userMap.put("status", "Hi there I'm using Petrachat.");
                     userMap.put("image", "default");
                     userMap.put("thumb_image", "default");
+                    userMap.put("devicetoken",devicetoken);
 
                     mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
