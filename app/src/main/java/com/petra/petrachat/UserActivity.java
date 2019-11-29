@@ -1,5 +1,7 @@
 package com.petra.petrachat;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,9 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class UserActivity extends AppCompatActivity {
@@ -67,8 +72,19 @@ public class UserActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull Users model) {
                 holder.setName(model.getName());
                 holder.setStatus(model.getStatus());
-            }
+                holder.setUserImage(model.getThumb_image(),getApplicationContext());
+                final String user_id = getRef(position).getKey();
 
+                holder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent profileIntent = new Intent(UserActivity.this,ProfileActivity.class);
+                        profileIntent.putExtra("user_id",user_id);
+                        startActivity(profileIntent);
+                    }
+                });
+            }
+            //-------------------
         };
         //mengatur adapter supaya dapat dijalankan
         muserList.setAdapter(adapter);
@@ -88,6 +104,10 @@ public class UserActivity extends AppCompatActivity {
         public void setStatus(String status) {
             TextView userStatusView = mView.findViewById(R.id.user_single_status);
             userStatusView.setText(status);
+        }
+        public  void setUserImage(String thumb_image, Context ctx) {
+            CircleImageView userImageView = mView.findViewById(R.id.user_single);
+            Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.defaultprofile).into(userImageView);
         }
     }
 }

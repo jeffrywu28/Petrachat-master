@@ -25,4 +25,7 @@
     <string name="save_changes">SAVE CHANGES</string>
     <string name="display_name">Display Name</string>
     <string name="user_default_status">User Default Status</string>
+    <string name="current_user_status">Current User Status</string>
+    <string name="total_friends">Total Friends</string>
+    <string name="send_friend_request">Send Friend Request</string>
 </resources>
