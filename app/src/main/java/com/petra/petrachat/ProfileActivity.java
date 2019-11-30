@@ -88,7 +88,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 mProfileSendReqBtn.setText("Cancel Friend Request");
                             }
                         }else {
-                            mFriendReqReference.child(mCurrent_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            mFriendDatabase.child(mCurrent_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.hasChild(user_id)){
