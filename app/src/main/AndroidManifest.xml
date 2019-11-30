@@ -13,11 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name="com.petra.petrachat.Petrachat">
-        <activity android:name=".ProfileActivity"></activity>
-        <activity android:name=".UserActivity" />
-        <activity
-            android:name=".StatusActivity"
-            android:parentActivityName=".SettingActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".UserActivity" />
+        <activity
+            android:name=".StatusActivity"
+            android:parentActivityName=".SettingActivity" />
+
         <activity android:name=".Register_activity" />
         <activity android:name=".login_activity" />
         <activity android:name=".MainActivity" />

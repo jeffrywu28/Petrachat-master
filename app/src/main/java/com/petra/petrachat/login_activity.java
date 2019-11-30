@@ -1,6 +1,8 @@
 package com.petra.petrachat;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -42,13 +44,25 @@ public class login_activity extends AppCompatActivity {
                 String email = mLoginEmail.getEditText().getText().toString();
                 String password = mLoginPassword.getEditText().getText().toString();
 
-                if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password)){
+                if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
 
                     mLoginProgress.setTitle("Logging In");
                     mLoginProgress.setMessage("Please wait while we check your credentials.");
                     mLoginProgress.setCanceledOnTouchOutside(false);
                     mLoginProgress.show();
                     loginUser(email, password);
+                }
+                else if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+                    AlertDialog alertDialog = new AlertDialog.Builder(login_activity.this).create();
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setMessage("Harap cek inputan anda Petra People");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
                 }
             }
         });

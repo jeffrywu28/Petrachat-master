@@ -62,7 +62,7 @@ public class Register_activity extends AppCompatActivity {
                 String password = mPassword.getEditText().getText().toString();
 
                     //cek inputan kosong
-                   if(displayName.isEmpty()&& email.isEmpty() && password.isEmpty())
+                   if(displayName.isEmpty() || email.isEmpty() || password.isEmpty())
                    {
                        AlertDialog alertDialog = new AlertDialog.Builder(Register_activity.this).create();
                        alertDialog.setTitle("Alert");

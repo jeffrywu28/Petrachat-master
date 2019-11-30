@@ -40,6 +40,13 @@ public class UserActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("All User");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         //mengambil data userlist dari firebase
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         muserList = findViewById(R.id.userlist);
