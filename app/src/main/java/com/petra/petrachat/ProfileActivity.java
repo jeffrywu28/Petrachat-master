@@ -99,13 +99,13 @@ public class ProfileActivity extends AppCompatActivity {
                         if(dataSnapshot.hasChild(user_id)){
                             String req_type=dataSnapshot.child(user_id).child("request_type").getValue().toString();
                             if(req_type.equals("received")){
-                                mCurrent_state="received";
+                                mCurrent_state="req_received";
                                 mProfileSendReqBtn.setText("Accept Friend Request");
                                 mDeclineBtn.setVisibility(View.VISIBLE);
                                 mDeclineBtn.setEnabled(true);
 
                             } else if(req_type.equals("sent")){
-                                mCurrent_state="sent";
+                                mCurrent_state="req_sent";
                                 mProfileSendReqBtn.setText("Cancel Friend Request");
                                 mDeclineBtn.setVisibility(View.INVISIBLE);
                                 mDeclineBtn.setEnabled(false);
@@ -156,8 +156,8 @@ public class ProfileActivity extends AppCompatActivity {
                 if(mCurrent_state.equals("not_friends")){
 
                     Map requestMap = new HashMap();
-                    requestMap.put( "friend_reg/" + mCurrent_user.getUid() + "/" + user_id + "/request_type","sent");
-                    requestMap.put("friend_reg/" + user_id + "/" + mCurrent_user.getUid() + "/request_type","received");
+                    requestMap.put( "friend_req/" + mCurrent_user.getUid() + "/" + user_id + "/request_type","sent");
+                    requestMap.put("friend_req/" + user_id + "/" + mCurrent_user.getUid() + "/request_type","received");
 
                     mRootRef.updateChildren(requestMap, new DatabaseReference.CompletionListener() {
                         @Override
@@ -166,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 Toast.makeText(ProfileActivity.this, "Sending request error",Toast.LENGTH_SHORT).show();
 
                             }
-                            mCurrent_state="reg_sent";
+                            mCurrent_state="req_sent";
                             mProfileSendReqBtn.setText("Cancel Friend Request");
                             mProfileSendReqBtn.setEnabled(true);
 
@@ -202,12 +202,12 @@ public class ProfileActivity extends AppCompatActivity {
                     final String current_date = DateFormat.getDateTimeInstance().format(new Date());
 
                     Map friendsMap = new HashMap();
-                    friendsMap.put("Friends/" + mCurrent_user.getUid() + "/" + user_id + "/date", current_date);
-                    friendsMap.put("Friends/" + user_id + "/"  + mCurrent_user.getUid() + "/date", current_date);
+                    friendsMap.put("friends/" + mCurrent_user.getUid() + "/" + user_id + "/date", current_date);
+                    friendsMap.put("friends/" + user_id + "/"  + mCurrent_user.getUid() + "/date", current_date);
 
 
-                    friendsMap.put("Friend_req/" + mCurrent_user.getUid() + "/" + user_id, null);
-                    friendsMap.put("Friend_req/" + user_id + "/" + mCurrent_user.getUid(), null);
+                    friendsMap.put("friend_req/" + mCurrent_user.getUid() + "/" + user_id, null);
+                    friendsMap.put("friend_req/" + user_id + "/" + mCurrent_user.getUid(), null);
 
 
                     mRootRef.updateChildren(friendsMap, new DatabaseReference.CompletionListener() {
@@ -239,8 +239,8 @@ public class ProfileActivity extends AppCompatActivity {
                 if(mCurrent_state.equals("friends")){
 
                     Map unfriendMap = new HashMap();
-                    unfriendMap.put("Friends/" + mCurrent_user.getUid() + "/" + user_id, null);
-                    unfriendMap.put("Friends/" + user_id + "/" + mCurrent_user.getUid(), null);
+                    unfriendMap.put("friends/" + mCurrent_user.getUid() + "/" + user_id, null);
+                    unfriendMap.put("friends/" + user_id + "/" + mCurrent_user.getUid(), null);
 
                     mRootRef.updateChildren(unfriendMap, new DatabaseReference.CompletionListener() {
                         @Override
