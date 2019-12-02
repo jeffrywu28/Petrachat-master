@@ -13,11 +13,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="133dp"
-        android:layout_marginRight="133dp"
-        android:layout_marginBottom="302dp"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="167dp"
+        android:layout_marginRight="167dp"
+        android:layout_marginBottom="304dp"
+        android:autoText="false"
+        android:focusableInTouchMode="false"
         android:text="@string/display_name"
+        android:textAlignment="center"
         android:textSize="24sp" />
 
     <ImageView
