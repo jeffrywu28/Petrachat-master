@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private SectionPagerAdapter mSectionPagerAdapter;
-
+    private DatabaseReference mUserRef;
     private TabLayout mTabLayout;
 
     @Override
@@ -35,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
         mToolbar= (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Petra Chat");
+
+        if (mAuth.getCurrentUser() != null) {
+
+            mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+
+        }
 
         //tabs
         mViewPager = (ViewPager) findViewById(R.id.main_tabPager);
@@ -54,11 +62,16 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser==null) {
             sendToStart();
+        }else {
+
+            mUserRef.child("online").setValue("true");
+
         }
+
     }
 
     private void sendToStart() {
-        Intent startIntent = new Intent (MainActivity.this,SplashScreen.class);
+        Intent startIntent = new Intent (MainActivity.this,StartActivity.class);
         startActivity(startIntent);
         finish();
     }

@@ -12,10 +12,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class login_activity extends AppCompatActivity {
 
@@ -24,6 +28,7 @@ public class login_activity extends AppCompatActivity {
     private Button mLogin_btn;
     private ProgressDialog mLoginProgress;
     private FirebaseAuth mAuth;
+    private DatabaseReference mUserDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +36,8 @@ public class login_activity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-
         mLoginProgress = new ProgressDialog(this);
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         mLoginEmail = (TextInputLayout) findViewById(R.id.login_email);
         mLoginPassword = (TextInputLayout) findViewById(R.id.login_password);
         mLogin_btn = (Button) findViewById(R.id.login_btn);
@@ -79,12 +84,26 @@ public class login_activity extends AppCompatActivity {
 
                 if(task.isSuccessful()){
                     mLoginProgress.dismiss();
-                    Intent mainIntent = new Intent(login_activity.this, MainActivity.class);
-                    startActivity(mainIntent);
-                    finish();
+
+                    String current_user_id = mAuth.getCurrentUser().getUid();
+                    String deviceToken = FirebaseInstanceId.getInstance().getToken();
+
+                    mUserDatabase.child(current_user_id).child("device_token").setValue(deviceToken).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            Intent mainIntent = new Intent(login_activity.this, MainActivity.class);
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(mainIntent);
+                            finish();
+
+
+                        }
+                    });
                 } else {
 
                     mLoginProgress.hide();
+                    String task_result = task.getException().getMessage().toString();
                     Toast.makeText(login_activity.this, "Tidak bisa sign in, tolong cek kembali inputan anda!", Toast.LENGTH_LONG).show();
 
                 }
