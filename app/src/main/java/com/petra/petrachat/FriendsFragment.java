@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -83,13 +84,14 @@ public class FriendsFragment extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 final String name=dataSnapshot.child("name").getValue().toString();
                                 final String userThumb=dataSnapshot.child("thumb_image").getValue().toString();
+                                String userOnline=dataSnapshot.child("online").getValue().toString();
 
                                 holder.setName(name);
                                 holder.setUserImage(userThumb,getContext());
-                                /*if (dataSnapshot.hasChild("online")){
+                                if (dataSnapshot.hasChild("online")){
                                     String useronline=dataSnapshot.child("online").getValue().toString();
                                     holder.setUserOnline(useronline);
-                                }*/
+                                }
 
                             }
 
@@ -128,6 +130,16 @@ public class FriendsFragment extends Fragment {
         public void setUserImage(String image, Context ctx){
             CircleImageView circleImageView2=mView.findViewById(R.id.user_single_image);
             Picasso.with(ctx).load(image).placeholder(R.drawable.defaultprofile).into(circleImageView2);
+        }
+
+        public void setUserOnline(String online_status){
+            ImageView userOnlineView = mView.findViewById(R.id.user_single_online_icon);
+
+            if(online_status.equals(true)){
+                userOnlineView.setVisibility(View.VISIBLE);
+            }else {
+                userOnlineView.setVisibility(View.INVISIBLE);
+            }
         }
 
 

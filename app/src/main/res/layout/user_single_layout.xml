@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -37,5 +38,19 @@
         android:textColor="#090303"
         android:textSize="18sp"
         android:textStyle="normal" />
+
+    <ImageView
+        android:id="@+id/user_single_online_icon"
+        android:layout_width="21dp"
+        android:layout_height="13dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="119dp"
+        android:layout_marginRight="119dp"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/icon_online" />
 
 </RelativeLayout>

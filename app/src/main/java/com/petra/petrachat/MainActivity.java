@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mUserRef.child("online").setValue(false);
+    }
+
     private void sendToStart() {
         Intent startIntent = new Intent (MainActivity.this,StartActivity.class);
         startActivity(startIntent);
