@@ -16,7 +16,7 @@
         android:text="@string/user_default_status" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_single"
+        android:id="@+id/user_single_image"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginLeft="15dp"

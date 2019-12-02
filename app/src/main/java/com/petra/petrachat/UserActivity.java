@@ -73,7 +73,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 return new UserViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.user_single, parent, false));
+                        .inflate(R.layout.user_single_layout, parent, false));
             }
             @Override
             protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull Users model) {
@@ -113,7 +113,7 @@ public class UserActivity extends AppCompatActivity {
             userStatusView.setText(status);
         }
         public  void setUserImage(String thumb_image, Context ctx) {
-            CircleImageView userImageView = mView.findViewById(R.id.user_single);
+            CircleImageView userImageView = mView.findViewById(R.id.user_single_image);
             Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.defaultprofile).into(userImageView);
         }
     }
