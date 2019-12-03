@@ -47,9 +47,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="119dp"
-        android:layout_marginRight="119dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginRight="156dp"
         android:visibility="invisible"
         app:srcCompat="@drawable/icon_online" />
 

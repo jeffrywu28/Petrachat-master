@@ -1,7 +1,10 @@
 package com.petra.petrachat;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -84,8 +87,6 @@ public class FriendsFragment extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 final String name=dataSnapshot.child("name").getValue().toString();
                                 final String userThumb=dataSnapshot.child("thumb_image").getValue().toString();
-                                //String userOnline=dataSnapshot.child("online").getValue().toString();
-
 
                                 if (dataSnapshot.hasChild("online")){
                                     String useronline=dataSnapshot.child("online").getValue().toString();
@@ -93,6 +94,37 @@ public class FriendsFragment extends Fragment {
                                 }
                                 holder.setName(name);
                                 holder.setUserImage(userThumb,getContext());
+                                holder.mView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                        CharSequence options[] = new CharSequence[]{"Open Profile","Send message"};
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                        builder.setTitle("Select Options");
+                                        builder.setItems(options, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int i) {
+
+                                                //Click untuk setiap item
+                                                if(i == 0){
+                                                    Intent profileIntent = new Intent(getContext(),ProfileActivity.class);
+                                                    profileIntent.putExtra("user_id",list_user_id);
+                                                    startActivity(profileIntent);
+                                                }
+
+                                                if(i == 1){
+                                                    Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                                                    chatIntent.putExtra("user_id", list_user_id);
+                                                    chatIntent.putExtra("user_name",name);
+                                                    startActivity(chatIntent);
+
+                                                }
+                                            }
+                                        });
+                                        builder.show();
+                                    }
+                                });
 
                             }
 
@@ -136,7 +168,7 @@ public class FriendsFragment extends Fragment {
         public void setUserOnline(String online_icon){
             ImageView userOnlineView = mView.findViewById(R.id.user_single_online_icon);
 
-            if(online_icon.equals(true)){
+            if(online_icon.equals("true")){
                 userOnlineView.setVisibility(View.VISIBLE);
             }else {
                 userOnlineView.setVisibility(View.INVISIBLE);

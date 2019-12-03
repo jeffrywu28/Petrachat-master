@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         if(currentUser != null) {
 
             mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+            //mUserRef.child("LastSeen").setValue(ServerValue.TIMESTAMP);
 
         }
     }
