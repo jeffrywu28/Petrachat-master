@@ -11,7 +11,6 @@
     <include
         android:id="@+id/chat_app_bar"
         layout="@layout/app_bar_layout"
-        app:layout_collapseMode="pin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,33 +20,29 @@
         android:id="@+id/message_swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/linearLayout"
+        android:layout_above="@+id/bottomPanel"
         android:layout_below="@+id/chat_app_bar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingTop="60dp"
+        android:paddingBottom="60dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/messages_list"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="NotSibling" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/bottomPanel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="false"
-        android:layout_marginTop="600dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageButton
             android:id="@+id/chat_add_btn"
@@ -56,7 +51,8 @@
             app:layout_constraintEnd_toStartOf="@+id/chat_message_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_add_black_18dp" />
+            app:srcCompat="@drawable/baseline_add_black_18dp"
+            android:contentDescription="@string/attach_gambar" />
 
         <EditText
             android:id="@+id/chat_message_view"
@@ -74,7 +70,8 @@
             android:paddingBottom="12dp"
             app:layout_constraintEnd_toStartOf="@+id/chat_send_btn"
             app:layout_constraintStart_toEndOf="@+id/chat_add_btn"
-            app:layout_constraintTop_toTopOf="@+id/chat_add_btn" />
+            app:layout_constraintTop_toTopOf="@+id/chat_add_btn"
+            android:importantForAutofill="no" />
 
         <ImageButton
             android:id="@+id/chat_send_btn"
@@ -83,7 +80,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/chat_message_view"
             app:layout_constraintTop_toTopOf="@+id/chat_message_view"
-            app:srcCompat="@drawable/baseline_send_black_18dp" />
+            app:srcCompat="@drawable/baseline_send_black_18dp"
+            android:contentDescription="@string/kirim" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
