@@ -184,6 +184,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 messagesList.add(message);
                 mAdapter.notifyDataSetChanged();
+                mMessagesList.scrollToPosition(messagesList.size()-1);
+
             }
 
             @Override

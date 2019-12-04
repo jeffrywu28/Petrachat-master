@@ -11,31 +11,31 @@
     <include
         android:id="@+id/chat_app_bar"
         layout="@layout/app_bar_layout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:gravity="top" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/message_swipe_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="411dp"
+        android:layout_height="545dp"
         android:layout_above="@+id/bottomPanel"
         android:layout_below="@+id/chat_app_bar"
-        android:paddingTop="60dp"
-        android:paddingBottom="60dp">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chat_app_bar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/messages_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/linearLayout"
+            android:layout_below="@+id/chat_app_bar"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="NotSibling" />
+            android:layout_alignParentLeft="true"></androidx.recyclerview.widget.RecyclerView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomPanel"
@@ -61,8 +61,9 @@
             android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp"
             android:background="@android:color/white"
-            android:ems="10"
+            android:ems="13"
             android:hint="@string/enter_message"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:paddingTop="14dp"
@@ -70,8 +71,7 @@
             android:paddingBottom="12dp"
             app:layout_constraintEnd_toStartOf="@+id/chat_send_btn"
             app:layout_constraintStart_toEndOf="@+id/chat_add_btn"
-            app:layout_constraintTop_toTopOf="@+id/chat_add_btn"
-            android:importantForAutofill="no" />
+            app:layout_constraintTop_toTopOf="@+id/chat_add_btn" />
 
         <ImageButton
             android:id="@+id/chat_send_btn"
