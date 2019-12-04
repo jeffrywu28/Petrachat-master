@@ -28,4 +28,5 @@
     <string name="current_user_status">Current User Status</string>
     <string name="total_friends">Total Friends</string>
     <string name="send_friend_request">Send Friend Request</string>
+    <string name="enter_message">Enter Message...</string>
 </resources>
