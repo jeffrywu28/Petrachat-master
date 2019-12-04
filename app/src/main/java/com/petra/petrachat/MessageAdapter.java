@@ -43,23 +43,24 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         public TextView messageText;
         public CircleImageView profileImage;
-        public TextView displayName;
-        public ImageView messageImage;
+        //public TextView displayName;
+        //public ImageView messageImage;
 
         public MessageViewHolder(View view) {
             super(view);
             messageText = (TextView) view.findViewById(R.id.message_text_layout);
-            profileImage = (CircleImageView) view.findViewById(R.id.message_profile_layout);
+            profileImage = view.findViewById(R.id.message_profile_layout);
             //displayName = (TextView) view.findViewById(R.id.message_text_layout);
             //messageImage = (ImageView) view.findViewById(R.id.message_profile_layout);
 
         }
     }
 
+    //GET PESAN DISIMPAN DI HP
     @Override
     public void onBindViewHolder(final MessageViewHolder viewHolder, int i) {
         Messages c = mMessageList.get(i);
-
+        viewHolder.messageText.setText(c.getMessage());
     }
 
     @Override

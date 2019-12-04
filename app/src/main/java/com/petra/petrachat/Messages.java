@@ -2,13 +2,29 @@ package com.petra.petrachat;
 
 public class Messages {
 
-    private String message, seen, time, type,from;
+    private String message, type;
+    private long  time;
+    private boolean seen;
 
-    public Messages(String message, String seen, String time, String type, String from){
+    private String from;
+
+    public Messages(String from) {
+        this.from = from;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public Messages(String message, String type, long time, boolean seen) {
         this.message = message;
-        this.seen = seen;
-        this.time = time;
         this.type = type;
+        this.time = time;
+        this.seen = seen;
     }
 
     public String getMessage() {
@@ -19,22 +35,6 @@ public class Messages {
         this.message = message;
     }
 
-    public String getSeen() {
-        return seen;
-    }
-
-    public void setSeen(String seen) {
-        this.seen = seen;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
     public String getType() {
         return type;
     }
@@ -42,7 +42,25 @@ public class Messages {
     public void setType(String type) {
         this.type = type;
     }
-    public String getFrom() {
-        return from;
+
+    public long getTime() {
+        return time;
     }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
+    }
+
+    public Messages(){
+
+    }
+
 }

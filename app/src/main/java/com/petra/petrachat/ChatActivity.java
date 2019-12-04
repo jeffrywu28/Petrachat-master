@@ -59,7 +59,6 @@ public class ChatActivity extends AppCompatActivity {
     private LinearLayoutManager mLinearLayout;
     private MessageAdapter mAdapter;
 
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +94,8 @@ public class ChatActivity extends AppCompatActivity {
 
         mAdapter = new MessageAdapter(messagesList);
 
-        mMessagesList = findViewById(R.id.messages_list);
+        //MESSAGE IN CHATTING
+        mMessagesList = (RecyclerView) findViewById(R.id.messages_list);
         mLinearLayout =  new LinearLayoutManager(this);
         mMessagesList.setHasFixedSize(true);
         mMessagesList.setLayoutManager(mLinearLayout);
@@ -178,7 +178,7 @@ public class ChatActivity extends AppCompatActivity {
     private void loadMessages(){
         mRootRef.child("messages").child(mCurrentUserId).child(mChatUser).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 Messages message = dataSnapshot.getValue(Messages.class);
 
@@ -187,7 +187,7 @@ public class ChatActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
 
             }
 
@@ -197,7 +197,7 @@ public class ChatActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
 
             }
 
@@ -212,10 +212,10 @@ public class ChatActivity extends AppCompatActivity {
         String message = mChatMessageView.getText().toString();
         if(!TextUtils.isEmpty(message)){
 
-            String current_user_ref = "message/" + mCurrentUserId + "/" + mChatUser;
-            String chat_user_ref = "message/" + mChatUser + "/" + mCurrentUserId;
+            String current_user_ref = "messages/" + mCurrentUserId + "/" + mChatUser;
+            String chat_user_ref = "messages/" + mChatUser + "/" + mCurrentUserId;
 
-            DatabaseReference user_message_push = mRootRef.child("message")
+            DatabaseReference user_message_push = mRootRef.child("messages")
                     .child(mCurrentUserId).child(mChatUser).push();
 
             String push_id = user_message_push.getKey();

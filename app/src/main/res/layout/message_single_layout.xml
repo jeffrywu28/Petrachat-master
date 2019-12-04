@@ -23,7 +23,7 @@
         android:layout_marginTop="3dp"
         android:background="@drawable/message_text_background"
         android:padding="15dp"
-        android:text="TextView"
+        android:text="@string/textview"
         android:textColor="@color/white" />
 
 </RelativeLayout>
