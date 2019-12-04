@@ -26,7 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder>{
 
     private List<Messages> mMessageList;
-    private DatabaseReference mUserDatabase;
+    private FirebaseAuth mAuth;
 
     public MessageAdapter(List<Messages> mMessageList) {
         this.mMessageList = mMessageList;
@@ -34,6 +34,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mAuth = FirebaseAuth.getInstance();
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.message_single_layout ,parent, false);
         return new MessageViewHolder(v);
@@ -59,7 +60,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     //GET PESAN DISIMPAN DI HP
     @Override
     public void onBindViewHolder(final MessageViewHolder viewHolder, int i) {
+
+        String current_user_id=mAuth.getCurrentUser().getUid();
         Messages c = mMessageList.get(i);
+        String from_user=c.getFrom();
+        if(from_user.equals(current_user_id)){
+            viewHolder.messageText.setBackgroundColor(Color.WHITE);
+            viewHolder.messageText.setTextColor(Color.BLACK);
+        }else{
+            viewHolder.messageText.setBackgroundColor(R.drawable.message_text_background);
+            viewHolder.messageText.setTextColor(Color.WHITE);
+        }
         viewHolder.messageText.setText(c.getMessage());
     }
 
