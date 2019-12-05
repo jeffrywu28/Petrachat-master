@@ -5,8 +5,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/custom_bar_Image"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="300dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/defaultprofile" />
