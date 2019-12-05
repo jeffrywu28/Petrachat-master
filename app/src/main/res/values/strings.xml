@@ -32,4 +32,8 @@
     <string name="textview">TextView</string>
     <string name="attach_gambar">attach_gambar</string>
     <string name="kirim">Kirim</string>
+    <string name="message_text">Message Text</string>
+    <string name="display_name2">Display Name</string>
+    <string name="_00_00">00:00</string>
+    <string name="todo">TODO</string>
 </resources>

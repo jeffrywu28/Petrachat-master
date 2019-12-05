@@ -20,6 +20,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -27,6 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
@@ -54,10 +56,14 @@ public class ChatActivity extends AppCompatActivity {
     private EditText mChatMessageView;
 
     private RecyclerView mMessagesList;
+    private SwipeRefreshLayout mRefreshLayout;
 
     private final List<Messages> messagesList = new ArrayList<>();
     private LinearLayoutManager mLinearLayout;
     private MessageAdapter mAdapter;
+
+    private static final int TOTAL_ITEMS_TO_LOAD = 10;
+    private int mCurrentPage = 1;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -65,17 +71,18 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        mChatToolbar = findViewById(R.id.chat_app_bar);
+        mChatToolbar        = findViewById(R.id.chat_app_bar);
         setSupportActionBar(mChatToolbar);
         ActionBar actionBar = getSupportActionBar();
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
-        mRootRef = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
-        mCurrentUserId=mAuth.getCurrentUser().getUid();
-        mChatUser = getIntent().getStringExtra("user_id");
-        String userName = getIntent().getStringExtra("user_name");
+
+        mRootRef            = FirebaseDatabase.getInstance().getReference();
+        mAuth               = FirebaseAuth.getInstance();
+        mCurrentUserId      = mAuth.getCurrentUser().getUid();
+        mChatUser           = getIntent().getStringExtra("user_id");
+        String userName     = getIntent().getStringExtra("user_name");
 
         getSupportActionBar().setTitle(userName);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -83,20 +90,21 @@ public class ChatActivity extends AppCompatActivity {
 
         actionBar.setCustomView(action_bar_view);
 
-        //Custom Action Bar
-        mTitleView = findViewById(R.id.custom_bar_title);
-        mLastSeenView = findViewById(R.id.Custom_bar_seen);
-        mProfileImage = findViewById(R.id.custom_bar_Image);
+        //=================Custom Action Bar===========================
+        mTitleView          = findViewById(R.id.custom_bar_title);
+        mLastSeenView       = findViewById(R.id.Custom_bar_seen);
+        mProfileImage       = findViewById(R.id.custom_bar_Image);
 
-        mChatBtn=findViewById(R.id.chat_add_btn);
-        mChatSendBtn=findViewById(R.id.chat_send_btn);
-        mChatMessageView=findViewById(R.id.chat_message_view);
+        mChatBtn            = findViewById(R.id.chat_add_btn);
+        mChatSendBtn        = findViewById(R.id.chat_send_btn);
+        mChatMessageView    = findViewById(R.id.chat_message_view);
 
         mAdapter = new MessageAdapter(messagesList);
 
-        //MESSAGE IN CHATTING
-        mMessagesList = (RecyclerView) findViewById(R.id.messages_list);
-        mLinearLayout =  new LinearLayoutManager(this);
+        //=================MESSAGE IN CHATTING========================
+        mMessagesList    = findViewById(R.id.messages_list);
+        mRefreshLayout   = findViewById(R.id.message_swipe_layout);
+        mLinearLayout    =  new LinearLayoutManager(this);
         mMessagesList.setHasFixedSize(true);
         mMessagesList.setLayoutManager(mLinearLayout);
 
@@ -173,10 +181,24 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        //=================KETIKA REFRESH DI TRIGGER=============================
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mCurrentPage++;
+                messagesList.clear();
+                loadMessages(); //ambil message
+            }
+        });
+
     }
 
     private void loadMessages(){
-        mRootRef.child("messages").child(mCurrentUserId).child(mChatUser).addChildEventListener(new ChildEventListener() {
+
+        DatabaseReference messageRef= mRootRef.child("messages").child(mCurrentUserId).child(mChatUser);
+        Query messageQuery = messageRef.limitToLast(mCurrentPage = TOTAL_ITEMS_TO_LOAD);
+
+        messageQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -185,6 +207,7 @@ public class ChatActivity extends AppCompatActivity {
                 messagesList.add(message);
                 mAdapter.notifyDataSetChanged();
                 mMessagesList.scrollToPosition(messagesList.size()-1);
+                mRefreshLayout.setRefreshing(false);
 
             }
 

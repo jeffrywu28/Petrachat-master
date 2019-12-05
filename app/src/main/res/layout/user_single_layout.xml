@@ -34,7 +34,7 @@
         android:layout_alignParentBottom="false"
         android:layout_marginLeft="93dp"
         android:layout_marginTop="25dp"
-        android:text="@string/display_name"
+        android:text="@string/display_name2"
         android:textColor="#090303"
         android:textSize="18sp"
         android:textStyle="normal" />
