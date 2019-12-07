@@ -42,8 +42,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         public MessageViewHolder(View view) {
             super(view);
-            messageText  = view.findViewById(R.id.Custom_bar_seen);
-            profileImage = view.findViewById(R.id.custom_bar_Image);
+            messageText  = view.findViewById(R.id.custom_bar_seen);
+            profileImage = view.findViewById(R.id.custom_bar_image);
             displayName  = view.findViewById(R.id.custom_bar_title);
             messageImage = view.findViewById(R.id.message_image_layout);
         }

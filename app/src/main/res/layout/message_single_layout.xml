@@ -6,23 +6,23 @@
     android:padding="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/custom_bar_Image"
+        android:id="@+id/custom_bar_image"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:src="@drawable/defaultprofile" />
 
     <TextView
-        android:id="@+id/Custom_bar_seen"
+        android:id="@+id/custom_bar_seen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/custom_bar_title"
         android:layout_marginLeft="10dp"
-        android:layout_toEndOf="@+id/custom_bar_Image"
+        android:layout_toEndOf="@+id/custom_bar_image"
         android:padding="0dp"
         android:text="@string/message_text"
         android:textColor="#444444"
         android:textSize="14sp"
-        android:layout_toRightOf="@+id/custom_bar_Image"
+        android:layout_toRightOf="@+id/custom_bar_image"
         android:layout_marginStart="10dp" />
 
     <TextView
@@ -31,12 +31,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
-        android:layout_toEndOf="@+id/custom_bar_Image"
+        android:layout_toEndOf="@+id/custom_bar_image"
         android:text="@string/display_name"
         android:textColor="@android:color/black"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:layout_toRightOf="@+id/custom_bar_Image"
+        android:layout_toRightOf="@+id/custom_bar_image"
         android:layout_marginStart="10dp" />
 
     <TextView
@@ -57,15 +57,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/Custom_bar_seen"
-        android:layout_below="@+id/Custom_bar_seen"
+        android:layout_alignStart="@+id/custom_bar_seen"
+        android:layout_below="@+id/custom_bar_seen"
         android:layout_marginLeft="0dp"
-        android:layout_toEndOf="@+id/custom_bar_Image"
+        android:layout_toEndOf="@+id/custom_bar_image"
         android:padding="0dp"
         android:scaleType="centerCrop"
         android:layout_alignParentRight="true"
-        android:layout_alignLeft="@+id/Custom_bar_seen"
-        android:layout_toRightOf="@+id/custom_bar_Image"
+        android:layout_alignLeft="@+id/custom_bar_seen"
+        android:layout_toRightOf="@+id/custom_bar_image"
         android:layout_marginStart="0dp"
         android:contentDescription="@string/todo" />
 
