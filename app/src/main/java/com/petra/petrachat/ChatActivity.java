@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,7 +121,8 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 String online = dataSnapshot.child("online").getValue().toString();
-                //String image = dataSnapshot.child("image").getValue().toString();
+                String image = dataSnapshot.child("image").getValue().toString();
+                Picasso.with(ChatActivity.this).load(image).placeholder(R.drawable.defaultprofile).into(mProfileImage);
                 //final String user_profile=getIntent().getStringExtra("image");
                 //.with(getApplicationContext()).load(user_profile).placeholder().into(mProfileImage);
 
