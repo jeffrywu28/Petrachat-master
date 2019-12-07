@@ -87,7 +87,7 @@ public class ChatActivity extends AppCompatActivity {
         mChatUser           = getIntent().getStringExtra("user_id");
         String userName     = getIntent().getStringExtra("user_name");
 
-        getSupportActionBar().setTitle(userName);
+       getSupportActionBar().setTitle("");
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View action_bar_view = inflater.inflate(R.layout.chat_custom_bar,null);
 
@@ -190,7 +190,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 mCurrentPage++;
-                messagesList.clear();
+                itemPos=0;
                 loadMoreMessages(); //ambil message
             }
         });
@@ -200,37 +200,27 @@ public class ChatActivity extends AppCompatActivity {
     private void loadMoreMessages() {
         DatabaseReference messageRef= mRootRef.child("messages").child(mCurrentUserId).child(mChatUser);
         Query messageQuery = messageRef.orderByKey().endAt(mLastKey).limitToLast(10);
+
         messageQuery.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
 
                 Messages message = dataSnapshot.getValue(Messages.class);
                 String messageKey = dataSnapshot.getKey();
 
                 if(!mPrevKey.equals(messageKey)){
-
-                    messagesList.add(itemPos++, message);
-
-                } else {
-
-                    mPrevKey = mLastKey;
-
+                    messagesList.add(itemPos++,message);
+                }
+                else {
+                    mPrevKey = messageKey;
                 }
 
-                if(itemPos == 1) {
-
-                    mLastKey = messageKey;
-
-                }
+                if(itemPos==1) mLastKey=messageKey;
 
 
-                Log.d("TOTALKEYS", "Last Key : " + mLastKey + " | Prev Key : " + mPrevKey + " | Message Key : " + messageKey);
-
+                Log.d("TOTALKEYS","Last Key : " + mLastKey+"|Prev Key : "+mPrevKey+"| Message Key : " +message);
                 mAdapter.notifyDataSetChanged();
-
                 mRefreshLayout.setRefreshing(false);
-
-                mLinearLayout.scrollToPositionWithOffset(10, 0);
 
             }
 
@@ -265,8 +255,14 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                Messages message = dataSnapshot.getValue(Messages.class);
 
+                Messages message = dataSnapshot.getValue(Messages.class);
+                itemPos++;
+                if(itemPos==1){
+                    String messageKey = dataSnapshot.getKey();
+                    mLastKey = messageKey;
+                    mPrevKey = messageKey;
+                }
                 messagesList.add(message);
                 mAdapter.notifyDataSetChanged();
                 mMessagesList.scrollToPosition(messagesList.size()-1);

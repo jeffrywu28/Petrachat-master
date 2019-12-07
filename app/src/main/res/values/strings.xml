@@ -36,4 +36,5 @@
     <string name="display_name2">Display Name</string>
     <string name="_00_00">00:00</string>
     <string name="todo">TODO</string>
+    <string name="last_seen">last seen</string>
 </resources>

@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/custom_bar_Image"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="300dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/defaultprofile" />
-
-    <TextView
-        android:id="@+id/custom_bar_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:text="@string/display_name" />
 
     <TextView
         android:id="@+id/Custom_bar_seen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Last Seen" />
+        android:layout_below="@+id/custom_bar_title"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/custom_bar_Image"
+        android:layout_toRightOf="@+id/custom_bar_Image"
+        android:padding="0dp"
+        android:text="@string/last_seen"
+        android:textColor="#444444"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/custom_bar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/custom_bar_Image"
+        android:layout_toRightOf="@+id/custom_bar_Image"
+        android:text="@string/display_name"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
