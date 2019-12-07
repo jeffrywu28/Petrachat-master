@@ -33,25 +33,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-
-        mToolbar= (Toolbar) findViewById(R.id.main_page_toolbar);
+        mAuth       = FirebaseAuth.getInstance();
+        mToolbar    = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Petra Chat");
 
         if (mAuth.getCurrentUser() != null) {
-
             mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-
         }
 
         //tabs
-        mViewPager = (ViewPager) findViewById(R.id.main_tabPager);
+        mViewPager = findViewById(R.id.main_tabPager);
         mSectionPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
-
         mViewPager.setAdapter(mSectionPagerAdapter);
-
-        mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
+        mTabLayout = findViewById(R.id.main_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
     }
@@ -66,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
         }else {
 
             mUserRef.child("online").setValue("true");
-
         }
-
     }
 
     @Override
@@ -76,10 +69,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
-
             mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
             //mUserRef.child("LastSeen").setValue(ServerValue.TIMESTAMP);
-
         }
     }
 
@@ -92,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return true;
     }

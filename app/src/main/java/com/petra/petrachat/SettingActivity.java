@@ -227,9 +227,11 @@ public class SettingActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
+
                             Uri downloadUri = task.getResult();
                             Map<String, Object> map = new HashMap<String, Object>();
                             map.put("thumb_image", downloadUri.toString());
+
                             mUserDatabase.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -264,6 +266,5 @@ public class SettingActivity extends AppCompatActivity {
         }
         return randomStringBuilder.toString();
     }
-
 
 }

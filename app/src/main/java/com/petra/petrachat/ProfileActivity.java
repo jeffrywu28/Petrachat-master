@@ -52,18 +52,18 @@ public class ProfileActivity extends AppCompatActivity {
 
         final String user_id =getIntent().getStringExtra("user_id");
 
-        mRootRef = FirebaseDatabase.getInstance().getReference();
-        mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
-        mFriendReqReference =FirebaseDatabase.getInstance().getReference().child("friend_req");
-        mFriendDatabase =FirebaseDatabase.getInstance().getReference().child("friends" );
-        mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
+        mRootRef            = FirebaseDatabase.getInstance().getReference();
+        mUsersDatabase      = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
+        mFriendReqReference = FirebaseDatabase.getInstance().getReference().child("friend_req");
+        mFriendDatabase     = FirebaseDatabase.getInstance().getReference().child("friends" );
+        mCurrent_user       = FirebaseAuth.getInstance().getCurrentUser();
 
-        mProfileImage= findViewById(R.id.profileImage);
-        mProfileName = findViewById(R.id.profile_displayname);
-        mProfileStatus = findViewById(R.id.profile_status);
+        mProfileImage       = findViewById(R.id.profileImage);
+        mProfileName        = findViewById(R.id.profile_displayname);
+        mProfileStatus      = findViewById(R.id.profile_status);
         mProfileFriendsCount=findViewById(R.id.profile_totalfriend);
-        mProfileSendReqBtn= findViewById(R.id.profile_send_req_btn);
-        mDeclineBtn = findViewById(R.id.profile_decline_btn);
+        mProfileSendReqBtn  = findViewById(R.id.profile_send_req_btn);
+        mDeclineBtn         = findViewById(R.id.profile_decline_btn);
 
         //declare friend
         mCurrent_state="not_friends";
@@ -74,8 +74,8 @@ public class ProfileActivity extends AppCompatActivity {
         mUsersDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("name").getValue().toString();
-                String image = dataSnapshot.child("image").getValue().toString();
+                String name   = dataSnapshot.child("name").getValue().toString();
+                String image  = dataSnapshot.child("image").getValue().toString();
                 String status = dataSnapshot.child("status").getValue().toString();
 
                 mProfileName.setText(name);
@@ -86,7 +86,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                     mDeclineBtn.setEnabled(false);
                     mDeclineBtn.setVisibility(View.INVISIBLE);
-
                     mProfileSendReqBtn.setEnabled(false);
                     mProfileSendReqBtn.setVisibility(View.INVISIBLE);
 
@@ -117,7 +116,6 @@ public class ProfileActivity extends AppCompatActivity {
                                     if (dataSnapshot.hasChild(user_id)){
                                         mCurrent_state="friends";
                                         mProfileSendReqBtn.setText("Unfriend this person");
-
                                         mDeclineBtn.setVisibility(View.INVISIBLE);
                                         mDeclineBtn.setEnabled(false);
                                     }
@@ -134,7 +132,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
                     }
                 });
 
@@ -142,7 +139,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
@@ -164,12 +160,10 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                             if(databaseError != null){
                                 Toast.makeText(ProfileActivity.this, "Sending request error",Toast.LENGTH_SHORT).show();
-
                             }
                             mCurrent_state="req_sent";
                             mProfileSendReqBtn.setText("Cancel Friend Request");
                             mProfileSendReqBtn.setEnabled(true);
-
 
                         }
                     });
@@ -205,15 +199,12 @@ public class ProfileActivity extends AppCompatActivity {
                     friendsMap.put("friends/" + mCurrent_user.getUid() + "/" + user_id + "/date", current_date);
                     friendsMap.put("friends/" + user_id + "/"  + mCurrent_user.getUid() + "/date", current_date);
 
-
                     friendsMap.put("friend_req/" + mCurrent_user.getUid() + "/" + user_id, null);
                     friendsMap.put("friend_req/" + user_id + "/" + mCurrent_user.getUid(), null);
-
 
                     mRootRef.updateChildren(friendsMap, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
 
                             if(databaseError == null){
 
@@ -258,14 +249,10 @@ public class ProfileActivity extends AppCompatActivity {
                             } else {
 
                                 String error = databaseError.getMessage();
-
                                 Toast.makeText(ProfileActivity.this, error, Toast.LENGTH_SHORT).show();
 
-
                             }
-
                             mProfileSendReqBtn.setEnabled(true);
-
                         }
                     });
                 }

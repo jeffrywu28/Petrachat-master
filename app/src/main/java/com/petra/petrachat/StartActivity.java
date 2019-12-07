@@ -28,12 +28,12 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splah_screen);
-        rellay1 = (RelativeLayout) findViewById(R.id.rellay1);
-        rellay2 = (RelativeLayout) findViewById(R.id.rellay2);
+        rellay1 = findViewById(R.id.rellay1);
+        rellay2 = findViewById(R.id.rellay2);
 
         handler.postDelayed(runnable,2500);
-        mRegBtn = (Button) findViewById(R.id.start_reg_btn);
-        mLoginBtn = (Button) findViewById(R.id.start_login_btn);
+        mRegBtn = findViewById(R.id.start_reg_btn);
+        mLoginBtn = findViewById(R.id.start_login_btn);
 
         mRegBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +41,6 @@ public class StartActivity extends AppCompatActivity {
 
                 Intent reg_intent = new Intent(StartActivity.this, Register_activity.class);
                 startActivity(reg_intent);
-
             }
         });
 
@@ -51,7 +50,6 @@ public class StartActivity extends AppCompatActivity {
 
                 Intent login_intent = new Intent(StartActivity.this, login_activity.class);
                 startActivity(login_intent);
-
             }
         });
 

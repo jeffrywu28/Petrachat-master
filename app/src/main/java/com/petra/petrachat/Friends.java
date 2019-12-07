@@ -3,9 +3,7 @@ package com.petra.petrachat;
 public class Friends {
     public String date;
 
-    public Friends(){
-
-    }
+    public Friends(){ }
 
     public Friends(String date){
         this.date = date;

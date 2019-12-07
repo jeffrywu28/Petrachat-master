@@ -35,18 +35,18 @@ public class login_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth          = FirebaseAuth.getInstance();
         mLoginProgress = new ProgressDialog(this);
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-        mLoginEmail = (TextInputLayout) findViewById(R.id.login_email);
-        mLoginPassword = (TextInputLayout) findViewById(R.id.login_password);
-        mLogin_btn = (Button) findViewById(R.id.login_btn);
+        mUserDatabase  = FirebaseDatabase.getInstance().getReference().child("Users");
+        mLoginEmail    = findViewById(R.id.login_email);
+        mLoginPassword = findViewById(R.id.login_password);
+        mLogin_btn     = findViewById(R.id.login_btn);
 
         mLogin_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String email = mLoginEmail.getEditText().getText().toString();
+                String email    = mLoginEmail.getEditText().getText().toString();
                 String password = mLoginPassword.getEditText().getText().toString();
 
                 if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
@@ -58,6 +58,7 @@ public class login_activity extends AppCompatActivity {
                     loginUser(email, password);
                 }
                 else if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+
                     AlertDialog alertDialog = new AlertDialog.Builder(login_activity.this).create();
                     alertDialog.setTitle("Alert");
                     alertDialog.setMessage("Harap cek inputan anda Petra People");
@@ -71,20 +72,15 @@ public class login_activity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     private void loginUser(String email, String password) {
-
-
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
                 if(task.isSuccessful()){
-                    mLoginProgress.dismiss();
 
+                    mLoginProgress.dismiss();
                     String current_user_id = mAuth.getCurrentUser().getUid();
                     String deviceToken = FirebaseInstanceId.getInstance().getToken();
 
@@ -96,7 +92,6 @@ public class login_activity extends AppCompatActivity {
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(mainIntent);
                             finish();
-
 
                         }
                     });
