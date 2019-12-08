@@ -64,6 +64,7 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton mChatAddBtn;
     private ImageButton mChatSendBtn;
     private EditText mChatMessageView;
+    private TextView mTime;
 
     private RecyclerView mMessagesList;
     private SwipeRefreshLayout mRefreshLayout;
@@ -115,9 +116,10 @@ public class ChatActivity extends AppCompatActivity {
         mLastSeenView       = findViewById(R.id.custom_bar_seen);
         mProfileImage       = findViewById(R.id.custom_bar_image);
 
-        mChatAddBtn            = findViewById(R.id.chat_add_btn);
+        mChatAddBtn         = findViewById(R.id.chat_add_btn);
         mChatSendBtn        = findViewById(R.id.chat_send_btn);
         mChatMessageView    = findViewById(R.id.chat_message_view);
+
 
         mAdapter = new MessageAdapter(messagesList);
 
@@ -125,6 +127,7 @@ public class ChatActivity extends AppCompatActivity {
         mMessagesList    = findViewById(R.id.messages_list);
         mRefreshLayout   = findViewById(R.id.message_swipe_layout);
         mLinearLayout    =  new LinearLayoutManager(this);
+        mTime            = findViewById(R.id.time_text_layout);
         mMessagesList.setHasFixedSize(true);
         mMessagesList.setLayoutManager(mLinearLayout);
 
@@ -144,6 +147,7 @@ public class ChatActivity extends AppCompatActivity {
                 String online = dataSnapshot.child("online").getValue().toString();
                 String image = dataSnapshot.child("image").getValue().toString();
                 Picasso.with(ChatActivity.this).load(image).placeholder(R.drawable.defaultprofile).into(mProfileImage);
+
                 //final String user_profile=getIntent().getStringExtra("image");
                 //.with(getApplicationContext()).load(user_profile).placeholder().into(mProfileImage);
 
