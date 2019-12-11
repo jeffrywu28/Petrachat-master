@@ -64,7 +64,6 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton mChatAddBtn;
     private ImageButton mChatSendBtn;
     private EditText mChatMessageView;
-    private TextView mTime;
 
     private RecyclerView mMessagesList;
     private SwipeRefreshLayout mRefreshLayout;
@@ -127,7 +126,6 @@ public class ChatActivity extends AppCompatActivity {
         mMessagesList    = findViewById(R.id.messages_list);
         mRefreshLayout   = findViewById(R.id.message_swipe_layout);
         mLinearLayout    =  new LinearLayoutManager(this);
-        mTime            = findViewById(R.id.time_text_layout);
         mMessagesList.setHasFixedSize(true);
         mMessagesList.setLayoutManager(mLinearLayout);
 
