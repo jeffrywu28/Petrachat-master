@@ -1,26 +1,21 @@
 package com.petra.petrachat;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -34,8 +29,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.Objects;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatsFragment extends Fragment {
@@ -45,7 +38,7 @@ public class ChatsFragment extends Fragment {
     private DatabaseReference mConvDatabase;
     private DatabaseReference mMessageDatabase;
     private DatabaseReference mUsersDatabase;
-
+    private FirebaseRecyclerAdapter<Conv, ConvViewHolder> chatrecycleradapter;
     private FirebaseAuth mAuth;
     private String mCurrent_user_id;
 
@@ -61,11 +54,9 @@ public class ChatsFragment extends Fragment {
         mMainView = inflater.inflate(R.layout.fragment_chats, container, false);
         mConvList = mMainView.findViewById(R.id.conv_list);
         mAuth = FirebaseAuth.getInstance();
-
         mCurrent_user_id = mAuth.getCurrentUser().getUid();
 
         mConvDatabase = FirebaseDatabase.getInstance().getReference().child("Chat").child(mCurrent_user_id);
-
         mConvDatabase.keepSynced(true);
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         mMessageDatabase = FirebaseDatabase.getInstance().getReference().child("messages").child(mCurrent_user_id);
@@ -91,7 +82,7 @@ public class ChatsFragment extends Fragment {
                 .setLifecycleOwner(this)
                 .build();
 
-        FirebaseRecyclerAdapter<Conv, ConvViewHolder> chatrecycleradapter = new FirebaseRecyclerAdapter<Conv, ConvViewHolder>(options2){
+        chatrecycleradapter = new FirebaseRecyclerAdapter<Conv, ConvViewHolder>(options2){
             @NonNull
             @Override
             public ConvViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
