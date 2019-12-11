@@ -44,7 +44,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:6.1.0'
     implementation 'com.iceteck.silicompressorr:silicompressor:2.2.2'
     implementation 'id.zelory:compressor:2.1.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.2.1'
+    implementation 'com.squareup.okhttp:okhttp:2.5.0'
     implementation 'com.android.support:multidex:1.0.3'
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta3"
 }

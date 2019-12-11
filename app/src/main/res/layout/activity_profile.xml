@@ -41,15 +41,6 @@
         android:layout_marginBottom="270dp"
         android:text="@string/current_user_status" />
 
-    <TextView
-        android:id="@+id/profile_totalfriend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="159dp"
-        android:text="@string/total_friends" />
-
     <Button
         android:id="@+id/profile_send_req_btn"
         android:layout_width="wrap_content"

@@ -23,12 +23,12 @@ public class Petrachat extends Application {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        /*Picasso.Builder builder = new Picasso.Builder(this);
+        Picasso.Builder builder = new Picasso.Builder(this);
         builder.downloader(new OkHttpDownloader(this, Integer.MAX_VALUE));
         Picasso built = builder.build();
         built.setIndicatorsEnabled(true);
         built.setLoggingEnabled(true);
-        Picasso.setSingletonInstance(built);*/
+        Picasso.setSingletonInstance(built);
 
         mAuth=FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser()!=null) {

@@ -31,7 +31,7 @@ import java.util.Map;
 public class ProfileActivity extends AppCompatActivity {
 
     private ImageView mProfileImage;
-    private TextView mProfileName,mProfileStatus,mProfileFriendsCount;
+    private TextView mProfileName,mProfileStatus;
     private Button mProfileSendReqBtn;
     private Button mDeclineBtn;
 
@@ -55,13 +55,15 @@ public class ProfileActivity extends AppCompatActivity {
         mRootRef            = FirebaseDatabase.getInstance().getReference();
         mUsersDatabase      = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
         mFriendReqReference = FirebaseDatabase.getInstance().getReference().child("friend_req");
+        mFriendReqReference.keepSynced(true);
         mFriendDatabase     = FirebaseDatabase.getInstance().getReference().child("friends" );
+        mFriendDatabase.keepSynced(true);
         mCurrent_user       = FirebaseAuth.getInstance().getCurrentUser();
 
         mProfileImage       = findViewById(R.id.profileImage);
         mProfileName        = findViewById(R.id.profile_displayname);
         mProfileStatus      = findViewById(R.id.profile_status);
-        mProfileFriendsCount=findViewById(R.id.profile_totalfriend);
+
         mProfileSendReqBtn  = findViewById(R.id.profile_send_req_btn);
         mDeclineBtn         = findViewById(R.id.profile_decline_btn);
 
@@ -160,9 +162,10 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                             if(databaseError != null){
                                 Toast.makeText(ProfileActivity.this, "Sending request error",Toast.LENGTH_SHORT).show();
+                            }else{
+                                mCurrent_state="req_sent";
+                                mProfileSendReqBtn.setText("Cancel Friend Request");
                             }
-                            mCurrent_state="req_sent";
-                            mProfileSendReqBtn.setText("Cancel Friend Request");
                             mProfileSendReqBtn.setEnabled(true);
 
                         }
@@ -225,6 +228,7 @@ public class ProfileActivity extends AppCompatActivity {
                     });
 
                 }
+
                 // ------------ UNFRIENDS ---------
 
                 if(mCurrent_state.equals("friends")){
@@ -258,6 +262,35 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        //----------------DECLINE---------------
+        mDeclineBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDeclineBtn.setVisibility(View.INVISIBLE);
+                mFriendReqReference.child(mCurrent_user.getUid()).child(user_id)
+                        .removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        mFriendReqReference.child(user_id).child(mCurrent_user.getUid())
+                                .removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                mProfileSendReqBtn.setEnabled(true);
+                                mCurrent_state="not_friends";
+                                Toast.makeText(ProfileActivity.this,"Successfully declined request!",Toast.LENGTH_LONG).show();
+                                mProfileSendReqBtn.setText("Send Friend Request");
+
+                            }
+                        });
+
+                    }
+                });
+
+            }
+        });
+
 
     }
 }
