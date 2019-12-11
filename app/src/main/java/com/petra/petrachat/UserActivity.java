@@ -37,6 +37,7 @@ public class UserActivity extends AppCompatActivity {
         //toolbar
         mToolbar = findViewById(R.id.userBar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
