@@ -16,14 +16,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/custom_bar_title"
+        android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_toEndOf="@+id/custom_bar_image"
-        android:padding="0dp"
-        android:text="@string/message_text"
-        android:textColor="#444444"
-        android:textSize="14sp"
         android:layout_toRightOf="@+id/custom_bar_image"
-        android:layout_marginStart="10dp" />
+        android:background="@drawable/message_text_background"
+        android:padding="0dp"
+        android:paddingLeft="60dp"
+        android:text="@string/message_text"
+        android:textColor="#fff"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/custom_bar_title"

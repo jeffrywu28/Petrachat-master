@@ -13,6 +13,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -21,6 +26,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     private List<Messages> mMessageList;
     private FirebaseAuth mAuth;
     private DatabaseReference mUserDatabase;
+    private TextView mTime;
 
     public MessageAdapter(List<Messages> mMessageList) {
         this.mMessageList = mMessageList;
@@ -46,6 +52,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             profileImage = view.findViewById(R.id.custom_bar_image);
             displayName  = view.findViewById(R.id.custom_bar_title);
             messageImage = view.findViewById(R.id.message_image_layout);
+            mTime        = view.findViewById(R.id.time_text_layout);
         }
     }
 
@@ -57,6 +64,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         Messages c             = mMessageList.get(i);
         String from_user       = c.getFrom();
         String message_type    = c.getType();
+        final String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        mTime.setText(date);
+
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(from_user);
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
