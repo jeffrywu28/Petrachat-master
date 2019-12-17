@@ -5,30 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserActivity">
+
     <include layout="@layout/app_bar_layout" android:id="@+id/userBar"/>
 
-    <EditText
-        android:id="@+id/search_view"
-        android:layout_width="227dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="false"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchInput"
+        android:layout_width="334dp"
+        android:layout_height="49dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="false"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:background="@android:color/white"
-        android:ems="13"
-        android:hint="@string/enter_name"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:paddingLeft="10dp"
-        android:paddingTop="14dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="12dp"
-        app:layout_constraintEnd_toStartOf="@+id/chat_send_btn"
-        app:layout_constraintStart_toEndOf="@+id/chat_add_btn"
-        app:layout_constraintTop_toTopOf="@+id/chat_add_btn" />
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:background="#e1f6fe"
+            android:hint="@string/cari_nama" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
         android:id="@+id/search_btn"
@@ -36,6 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="10dp"
         app:srcCompat="@drawable/search" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -43,6 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="603dp"
         android:layout_below="@+id/userBar"
-        android:layout_marginTop="-1dp" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-1dp"
+        android:layout_marginBottom="1dp" />
 
 </RelativeLayout>
