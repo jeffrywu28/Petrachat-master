@@ -15,7 +15,10 @@ public class HashMap {
     }
 
     public int hash(String str){
-        return str.charAt(0) - 'a';
+        if(str.charAt(0) - 'a' >= 0 && str.charAt(0) - 'a' < 26) {
+            return str.charAt(0) - 'a';
+        }
+        return str.charAt(0) - 'A';
     }
 
     public void set(String _value){
@@ -49,6 +52,6 @@ public class HashMap {
                 iterator = iterator.getNext();
             }
         }
-        return "tidak ada";
+        return "Tidak ";
     }
 }

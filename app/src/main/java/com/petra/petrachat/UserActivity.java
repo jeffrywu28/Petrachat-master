@@ -6,10 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,15 +43,17 @@ public class UserActivity extends AppCompatActivity {
     private RecyclerView muserList;
     private DatabaseReference mUserDatabase;
     private FirebaseRecyclerAdapter<Users,UserViewHolder> adapter;
+    private ImageButton mSearch;
     HashMap data = new HashMap();
     String lala;
-
+    private TextInputLayout mTextSearch;
 
     //Memanggil layout untuk All users
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
 
         //toolbar
         mToolbar = findViewById(R.id.userBar);
@@ -68,24 +74,14 @@ public class UserActivity extends AppCompatActivity {
         muserList.setHasFixedSize(true);
         muserList.setLayoutManager(new LinearLayoutManager(this));
 
+        mSearch = findViewById(R.id.search_btn);
+        mTextSearch = findViewById(R.id.searchInput);
+
         mUserDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                 Users user= dataSnapshot.getValue(Users.class);
-                lala = user.getName();
-                data.set(lala);
-                lala = data.get(lala);
-               AlertDialog alertDialog = new AlertDialog.Builder(UserActivity.this).create();
-                alertDialog.setTitle("Alert");
-                alertDialog.setMessage(lala);
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-
+                data.set(user.getName());
             }
 
             @Override
@@ -109,7 +105,25 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
+        mSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email    = mTextSearch.getEditText().getText().toString();
 
+                AlertDialog alertDialog = new AlertDialog.Builder(UserActivity.this).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage(data.get(email)+" ditemukan");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+
+
+            }
+        });
 
 
     }
