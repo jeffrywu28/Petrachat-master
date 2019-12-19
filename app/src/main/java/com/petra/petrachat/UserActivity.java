@@ -1,22 +1,34 @@
 package com.petra.petrachat;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -27,6 +39,9 @@ public class UserActivity extends AppCompatActivity {
     private RecyclerView muserList;
     private DatabaseReference mUserDatabase;
     private FirebaseRecyclerAdapter<Users,UserViewHolder> adapter;
+    HashMap data = new HashMap();
+    String lala;
+
 
     //Memanggil layout untuk All users
     @Override
@@ -52,6 +67,51 @@ public class UserActivity extends AppCompatActivity {
         muserList = findViewById(R.id.userlist);
         muserList.setHasFixedSize(true);
         muserList.setLayoutManager(new LinearLayoutManager(this));
+
+        mUserDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+                Users user= dataSnapshot.getValue(Users.class);
+                lala = user.getName();
+                data.set(lala);
+                lala = data.get(lala);
+               AlertDialog alertDialog = new AlertDialog.Builder(UserActivity.this).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage(lala);
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
     }
 
     @Override
@@ -65,7 +125,6 @@ public class UserActivity extends AppCompatActivity {
                         .setLifecycleOwner(this)
                         .build();
 
-        //membuat objek recycler
         adapter = new FirebaseRecyclerAdapter<Users, UserViewHolder>(options) {
 
             //get data user
@@ -116,5 +175,6 @@ public class UserActivity extends AppCompatActivity {
             CircleImageView userImageView = mView.findViewById(R.id.user_single_image);
             Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.defaultprofile).into(userImageView);
         }
+
     }
 }
