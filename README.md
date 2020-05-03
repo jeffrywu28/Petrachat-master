@@ -1,4 +1,4 @@
 # Petrachat-master
-this is a android chatting application based java for Petranesian.
+This is a android chatting application based java programming language for Petranesian.
 
-Please wait.. this project is under construction.
+Firstly i'm so sorry with bad of UI/UX because at 3rd semester we don't study Android studio & UI/UX. This project just for fulfill the final project in java programming.
